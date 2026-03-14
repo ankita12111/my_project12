@@ -1,0 +1,120 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/balls/protos/RobocupSoccerBall.proto"
+
+WorldInfo {
+  title "Multi-Task NAO Arena"
+}
+Viewpoint {
+  orientation -0.057743102265977085 0.06504506017374145 0.9962102560642985 1.4558203620533994
+  position -0.4330632065590776 -9.5 2.5
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 15 12
+  wallThickness 2
+  wallHeight 0.3
+}
+
+# ── NAO Robot ─────────────────────────────────────────────────────────────────
+Nao {
+  translation 0 0 0.334
+  controller "unified_controller"
+  supervisor TRUE
+  rightHandSlot [
+    DEF HAND_CONNECTOR Connector {
+      name "right_hand_connector"
+      type "symmetric"
+      distanceTolerance 0.30
+      axisTolerance 3.14
+      rotationTolerance 3.14
+      autoLock FALSE
+    }
+  ]
+}
+
+# ── Soccer Ball (kick task) ───────────────────────────────────────────────────
+DEF SOCCER_BALL RobocupSoccerBall {
+  translation 3 -1.5 0.0656167
+  size 4
+}
+
+# ── Orange Box (grab/place task) ─────────────────────────────────────────────
+DEF PICK_OBJECT Solid {
+  translation 2.28062 1.79447 0.065
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.35 0
+        roughness 0.8
+        metalness 0
+      }
+      geometry Box {
+        size 0.13 0.13 0.13
+      }
+    }
+    Connector {
+      name "object_connector"
+      type "symmetric"
+      distanceTolerance 0.30
+      axisTolerance 3.14
+      rotationTolerance 3.14
+      autoLock FALSE
+    }
+  ]
+  boundingObject Box {
+    size 0.13 0.13 0.13
+  }
+  physics Physics {
+    density 8
+  }
+}
+
+# ── Chair 1 — Blue marker at (0, 3) ──────────────────────────────────────────
+DEF CHAIR1 Solid {
+  translation 0 3 0.45
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.4 1
+        roughness 0.6
+      }
+      geometry Box {
+        size 0.5 0.5 0.9
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.5 0.5 0.9
+  }
+  physics Physics { density 500 }
+  name "chair1"
+}
+
+# ── Chair 2 — Green marker at (3, 0) ─────────────────────────────────────────
+DEF CHAIR2 Solid {
+  translation 3 0 0.45
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.8 0.3
+        roughness 0.6
+      }
+      geometry Box {
+        size 0.5 0.5 0.9
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.5 0.5 0.9
+  }
+  physics Physics { density 500 }
+  name "chair2"
+}
